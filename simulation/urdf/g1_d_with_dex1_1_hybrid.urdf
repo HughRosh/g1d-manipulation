@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot name="g1_d_with_dual_dex1_1_hybrid">
   <mujoco>
-    <compiler meshdir="meshes" discardvisual="false" />
+    <compiler meshdir="." discardvisual="false" />
   </mujoco>
   <link name="AGV_link">
     <inertial>
