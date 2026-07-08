@@ -1,5 +1,13 @@
 robot:
-  model: unitree_g1_d
+  name: G1-D
+  urdf: simulation/urdf/g1_d_dex1_1.urdf
+
+  arm:
+    active: right
+
+  end_effector:
+    type: dex1_1_parallel_gripper
+
   dry_run: true
   real_robot_enabled: false
 
@@ -13,6 +21,6 @@ workspace:
 
 safety:
   require_board_detected: true
+  require_collision_check: true
   require_grasp_verification: true
   require_place_verification: true
-  require_collision_check: true
