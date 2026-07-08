@@ -10,3 +10,9 @@ motion:
 engine:
   stockfish_path: null
   time_limit_s: 0.1
+
+approach:
+  direction: top_down
+  board_normal: [0.0, 0.0, 1.0]
+  gripper_axis: vertical
+  allow_side_grasps: false

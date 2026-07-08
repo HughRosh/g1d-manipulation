@@ -5,6 +5,7 @@ from arm_planner import make_pick_place_motion
 from robot_controller import execute_motion
 from safety_checker import run_safety_checks
 from utils import load_config
+from planning_constraints import require_top_down_approach
 
 def main():
     chess_config = load_config("configs/chess.yaml")
@@ -30,6 +31,13 @@ def main():
 
     safe, message = run_safety_checks(motion, robot_config)
     print(f"Safety check: {message}")
+
+    ok, approach_msg = require_top_down_approach(chess_config)
+    print(f"Approach constraint: {approach_msg}")
+
+    if not ok:
+        print("Motion blocked.")
+        return
 
     if not safe:
         print("Motion blocked.")
