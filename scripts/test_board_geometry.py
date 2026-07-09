@@ -5,7 +5,7 @@ import sys
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from chess.board import ChessBoardGeometry
+from chessbot.board import ChessBoardGeometry
 
 board = ChessBoardGeometry(
     origin_x=0.40,
