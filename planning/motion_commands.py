@@ -1,31 +1,38 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
+from planning.kinematics import make_top_down_pose, TargetPose
 
 
 @dataclass
 class MotionCommand:
     action: str
-    target: list | None = None
+    target: object | None = None
     seconds: float = 1.0
     note: str = ""
 
     def as_dict(self):
+        target = self.target.as_dict() if hasattr(self.target, "as_dict") else self.target
         return {
             "action": self.action,
-            "target": self.target,
+            "target": target,
             "seconds": self.seconds,
             "note": self.note,
         }
 
 
-def move_xyz(x, y, z, seconds=1.0, note=""):
+def move_pose(pose: TargetPose, seconds=1.0, note=""):
     return MotionCommand(
-        action="move_xyz",
-        target=[float(x), float(y), float(z)],
+        action="move_pose",
+        target=pose,
         seconds=seconds,
         note=note,
     )
+
+
+def move_xyz(x, y, z, seconds=1.0, note="", yaw=0.0):
+    pose = make_top_down_pose(x, y, z, yaw=yaw)
+    return move_pose(pose, seconds=seconds, note=note)
 
 
 def move_joint(joint_index, delta, seconds=1.0, note=""):
