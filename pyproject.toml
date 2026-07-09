@@ -1,0 +1,8 @@
+[project]
+name = "g1d-manipulation"
+version = "0.1.0"
+description = "Modular manipulation framework for the Unitree G1-D"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
