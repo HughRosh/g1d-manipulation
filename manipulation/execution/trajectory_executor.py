@@ -3,9 +3,9 @@
 from dataclasses import dataclass
 from typing import Protocol
 import time
-import numpy as np
 
 from manipulation.planning.joint_trajectory import JointTrajectory
+from manipulation.safety.trajectory_safety import require_safe_trajectory
 from robot.commands.builders import command_from_current_position
 from robot.commands.low_command import LowCommand
 
@@ -31,9 +31,17 @@ class PrintCommandSink:
 class TrajectoryExecutor:
     command_sink: CommandSink
     realtime: bool = False
+    safety_enabled: bool = True
+    max_step_delta: float = 0.08
 
     def execute(self, trajectory: JointTrajectory) -> None:
-        for step_index, q in enumerate(trajectory.positions):
+        if self.safety_enabled:
+            require_safe_trajectory(
+                trajectory=trajectory,
+                max_step_delta=self.max_step_delta,
+            )
+
+        for q in trajectory.positions:
             command = command_from_current_position(q)
             self.command_sink.send(command)
 
