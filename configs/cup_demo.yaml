@@ -1,8 +1,0 @@
-cup:
-  position_xyz_m: [0.35, -0.15, 0.10]
-  approach_z_m: 0.30
-  grasp_z_m: 0.12
-
-drop_zone:
-  position_xyz_m: [0.20, 0.25, 0.25]
-  release_z_m: 0.30
