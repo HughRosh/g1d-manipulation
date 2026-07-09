@@ -29,21 +29,17 @@ class ArucoDetector:
             raise RuntimeError("OpenCV aruco module is not available")
 
         dictionary_id = getattr(cv2.aruco, dictionary_name)
-
         self.dictionary = cv2.aruco.getPredefinedDictionary(dictionary_id)
         self.parameters = cv2.aruco.DetectorParameters()
-        self.detector = cv2.aruco.ArucoDetector(
-            self.dictionary,
-            self.parameters,
-        )
+        self.detector = cv2.aruco.ArucoDetector(self.dictionary, self.parameters)
 
     def detect(self, image: np.ndarray) -> ArucoDetectionResult:
         corners, ids, _ = self.detector.detectMarkers(image)
 
-        markers: list[DetectedMarker] = []
-
         if ids is None:
             return ArucoDetectionResult(markers=[])
+
+        markers = []
 
         for marker_id, marker_corners in zip(ids.flatten(), corners):
             markers.append(
@@ -54,3 +50,17 @@ class ArucoDetector:
             )
 
         return ArucoDetectionResult(markers=markers)
+
+
+def draw_aruco_detections(image: np.ndarray, result: ArucoDetectionResult) -> np.ndarray:
+    output = image.copy()
+
+    if result.count == 0:
+        return output
+
+    corners = [marker.corners for marker in result.markers]
+    ids = np.array([[marker.marker_id] for marker in result.markers], dtype=np.int32)
+
+    cv2.aruco.drawDetectedMarkers(output, corners, ids)
+
+    return output
