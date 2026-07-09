@@ -20,3 +20,11 @@ class Transform:
         T = np.eye(4)
         T[:3, 3] = self.translation
         return T
+
+
+def compose(a, b):
+
+    return Transform(
+        translation=a.translation + b.translation,
+        quaternion=a.quaternion,
+    )
