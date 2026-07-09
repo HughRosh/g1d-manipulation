@@ -1,0 +1,37 @@
+network:
+  robot_ip: 192.168.123.164
+  computer_static_ip: 192.168.123.22
+
+robot_environment:
+  pc2_conda_env: tv
+  teleimager_components_installed: true
+
+streams:
+  head_binocular:
+    port: 60001
+    url: https://192.168.123.164:60001
+    type: binocular
+    role: primary_board_localization
+
+  left_wrist:
+    port: 60002
+    url: https://192.168.123.164:60002
+    type: monocular
+    role: left_hand_close_up_verification
+
+  right_wrist:
+    port: 60003
+    url: https://192.168.123.164:60003
+    type: monocular
+    role: right_hand_close_up_verification
+
+teleimager:
+  zmq_client_path: src/teleimager/image_client.py
+  supports:
+    - uvc
+    - opencv
+    - realsense
+    - zmq_pub_sub
+    - webrtc
+    - zmq_req_rep_config
+    - triple_ring_buffer
