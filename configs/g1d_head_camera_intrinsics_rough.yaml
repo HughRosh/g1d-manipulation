@@ -1,0 +1,17 @@
+camera:
+  name: head_binocular_rough
+  source: rough_fov_estimate
+  based_on: approximate_d435i_like_fov
+
+image:
+  width_px: 1280
+  height_px: 720
+
+fov_deg:
+  horizontal: 55.2
+  vertical: 42.4
+
+notes:
+  - These values are rough.
+  - They are only for software bring-up and approximate ArUco pose testing.
+  - Replace later with real camera calibration matrix and distortion coefficients.
