@@ -1,42 +1,71 @@
 #!/usr/bin/env python3
 
 """
-Kinematics module.
+Kinematics utilities.
 
-This is the future home of:
-- forward kinematics
-- inverse kinematics
-- top-down gripper constraints
-- Cartesian pose planning
+This module defines the Cartesian pose representation used
+throughout the project.
 
-For now this file defines the target-pose format used by the planner.
+All end-effector targets are represented as:
+
+    Position (x, y, z)
+    Quaternion (x, y, z, w)
+
+No Euler angles are stored internally.
+
+The planner should never command joints directly.
 """
 
+from dataclasses import dataclass
+import math
 
+
+@dataclass
 class TargetPose:
-    def __init__(self, x, y, z, approach="top_down"):
-        self.x = float(x)
-        self.y = float(y)
-        self.z = float(z)
-        self.approach = approach
+
+    position_xyz: list
+    orientation_xyzw: list
 
     def as_dict(self):
         return {
-            "position": [self.x, self.y, self.z],
-            "approach": self.approach,
+            "position_xyz": self.position_xyz,
+            "orientation_xyzw": self.orientation_xyzw,
         }
 
 
-def make_top_down_pose(x, y, z):
-    return TargetPose(x, y, z, approach="top_down")
+def quaternion_from_yaw(yaw):
+
+    half = yaw * 0.5
+
+    return [
+        0.0,
+        0.0,
+        math.sin(half),
+        math.cos(half),
+    ]
+
+
+def make_top_down_pose(x, y, z, yaw=0.0):
+    """
+    Create a pose whose tool Z-axis is normal to the table.
+
+    For now this assumes a top-down grasp with only yaw rotation.
+    """
+
+    q = quaternion_from_yaw(yaw)
+
+    return TargetPose(
+        position_xyz=[float(x), float(y), float(z)],
+        orientation_xyzw=q,
+    )
 
 
 def placeholder_ik(target_pose):
     """
-    Placeholder IK.
+    Placeholder inverse kinematics.
 
-    Returns a 14-joint arm command for the dual-arm controller.
-    This will later be replaced with a real IK solver.
+    Future versions will convert the target pose into
+    the 14 arm joint values used by the controller.
     """
-    q = [0.0] * 14
-    return q
+
+    return [0.0] * 14
