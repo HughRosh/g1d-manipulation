@@ -1,0 +1,16 @@
+model:
+  base: yolo11n.pt
+  output_name: chess_piece_color_yolo11n
+
+classes:
+  - white_piece
+  - black_piece
+
+training:
+  epochs: 50
+  imgsz: 640
+  dataset: datasets/chess_piece_color/data.yaml
+
+usage:
+  purpose: detect_piece_color_and_occupancy
+  not_for: full_piece_identity

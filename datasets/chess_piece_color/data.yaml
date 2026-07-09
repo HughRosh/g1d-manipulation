@@ -1,0 +1,7 @@
+path: datasets/chess_piece_color
+train: images/train
+val: images/val
+
+names:
+  0: white_piece
+  1: black_piece
